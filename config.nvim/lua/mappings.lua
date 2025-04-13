@@ -5,7 +5,7 @@ vim.keymap.set("n", "<leader>n", vim.cmd.Ex)
 -- terminals
 vim.keymap.set("n", "<leader>h", ":belowright split +term<cr>")
 vim.keymap.set("n", "<leader>v", ":belowright vsplit +term<cr>")
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>")
+vim.keymap.set("t", "<C-x>", "<C-\\><C-N>")
 
 -- windows
 --- navigation
