@@ -5,7 +5,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 
-vim.g.python3_host_prog = '/home/pranesh/.pyenv/versions/3.11.8/envs/py3nvim'
+vim.g.python3_host_prog = '/home/pranesh/python-venvs/neovim/bin/python3'
 
 
 -- use the system clipboard

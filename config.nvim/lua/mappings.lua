@@ -21,6 +21,10 @@ vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window b
 vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -
 
 
+--- buffers
+vim.keymap.set("n", "<leader>bx", ":bd<cr>")
+
+
 -- folding
 local ufo = require("ufo")
 vim.keymap.set("n", "zM", ufo.closeAllFolds)
@@ -60,4 +64,18 @@ vim.keymap.set("n", "<leader>Nr", ":Neorg return<cr>")
 -- nvim-tree
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<cr>")
 
+
+
+-- debugger
+vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<cr>")
+vim.keymap.set(
+    "n",
+    "<leader>dB",
+    function() 
+        require("dap").set_breakpoint(vim.fn.input("Breakpoint Condition: "))
+    end
+)
+vim.keymap.set("n", "<leader>dc", ":DapContinue<cr>")
+vim.keymap.set("n", "<leader>dC", ":DapClearBreakpoints<cr>")
+vim.keymap.set("n", "<leader>de", ":DapEval<cr>")
 
