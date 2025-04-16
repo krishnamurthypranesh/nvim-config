@@ -1,5 +1,6 @@
 require("sinistersquirrel.set")
 require("sinistersquirrel.workflow")
+require("sinistersquirrel.floaterminal")
 
 function SetEditorColor(color)
   color = color or "rose-pine"

@@ -85,7 +85,7 @@ require("lazy").setup({
       lazy = false,
       build = ":TSUpdate",
       opts = {
-        ensure_installed = { "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "norg", "python", "go", "javascript", "rust"},
+        ensure_installed = { "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "norg", "python", "go", "javascript", "rust", "html"},
         sync_install = false,
         auto_install = true,
         highlight = {
@@ -146,7 +146,7 @@ require("lazy").setup({
             ensure_installed = {
                 "lua-language-server", "stylua",
                 "html-lsp", "css-lsp", "prettier",
-                "pyright"
+                "pyright", "javascript",
             }
         }
     },
@@ -231,7 +231,7 @@ require("lazy").setup({
       "mfussenegger/nvim-dap-python",
     },
   },
-  checker = { enabled = true }
+  checker = { enabled = true, notify = false }
 })
 
 

@@ -6,6 +6,7 @@ vim.keymap.set("n", "<leader>n", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>h", ":belowright split +term<cr>")
 vim.keymap.set("n", "<leader>v", ":belowright vsplit +term<cr>")
 vim.keymap.set("t", "<C-x>", "<C-\\><C-N>")
+vim.keymap.set("n", "<M-i>", ":Floaterminal<cr>")
 
 -- windows
 --- navigation
@@ -35,19 +36,8 @@ vim.keymap.set("n", "zR", ufo.openAllFolds)
 local telescope_builtin = require("telescope.builtin")
 vim.keymap.set('n', '<C-p>', telescope_builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fw', telescope_builtin.live_grep, { desc = 'Telescope live grep' })
-
-vim.keymap.set(
-  'n',
-  '<leader>sb',
-  function()
-    telescope_builtin.grep_string({
-      search = vim.fn.input("Grep (backend) >"),
-      cwd = "/home/pranesh/tlg/landler/platform/backend",
-    })
-  end
-)
-
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope find buffers" })
+vim.keymap.set("n", "<leader>fz", telescope_builtin.current_buffer_fuzzy_find, { desc = "Telescope find in current buffer" })
 
 -- fugitive
 vim.keymap.set("n", "<leader>gB", ":Git blame<cr>")
