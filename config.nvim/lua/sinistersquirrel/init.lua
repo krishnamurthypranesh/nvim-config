@@ -1,7 +1,9 @@
 require("sinistersquirrel.set")
 require("sinistersquirrel.workflow")
 require("sinistersquirrel.floaterminal")
-require("sinistersquirrel.clipboard")
+
+require("sinistersquirrel.lazy_init")
+
 
 function SetEditorColor(color)
   color = color or "rose-pine"
@@ -11,5 +13,4 @@ function SetEditorColor(color)
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
-SetEditorColor("nightfox")
-
+SetEditorColor("tokyonight-storm")

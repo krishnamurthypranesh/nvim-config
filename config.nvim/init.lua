@@ -5,248 +5,47 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 
-vim.g.python3_host_prog = '/home/pranesh/python-venvs/neovim/bin/python3'
+-- change this to be read from an environment variable
+vim.g.python3_host_prog = '/home/pranesh/.pyenv/versions/3.11.8/envs/py3nvim'
 
 
 -- use the system clipboard
 -- vim.api.nvim_set_option("clipboard", "unnamed")
 vim.opt.clipboard = "unnamedplus"
 
-
 vim.schedule(function()
   require('mappings')
 end)
 
 
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+require("sinistersquirrel")
+require("plugins")
 
--- Auto-install lazy.nvim if not present
-if not vim.uv.fs_stat(lazypath) then
-  print('Installing lazy.nvim....')
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  })
-  print('Done.')
+local function load_project_config()
+    local config_path = os.getenv('NVIM_PROJECT_CONFIG')
+
+    if config_path and config_path ~= '' then
+        if config_path:sub(1, 1) == '~' then
+            config_path = vim.fn.expand(config_path)
+        end
+        if vim.fn.isdirectory(config_path) == 1 then
+            local init_file = config_path .. '/init.lua'
+            if vim.fn.filereadable(init_file) == 1 then
+                dofile(init_file)
+                print("loaded project config from: " .. init_file)
+            else
+                print("project config directory found but no init.lua: " .. config_path)
+            end
+        elseif vim.fn.filereadable(config_path) == 1 then
+            dofile(config_path)
+            print("loaded project config from: " .. config_path)
+        else
+            print("project config path not found: " .. config_path)
+        end
+    end
 end
 
-vim.opt.rtp:prepend(lazypath)
-
-
-require("lazy").setup({
-  spec = {
-    {
-      "nvim-telescope/telescope.nvim",
-      opts = {},
-    },
-    {
-      "tpope/vim-fugitive",
-      config = function()
-      end
-    },
-    {
-        "kdheepak/lazygit.nvim",
-        lazy = true,
-        cmd = {
-            "LazyGit",
-            "LazyGitConfig",
-            "LazyGitCurrentFile",
-            "LazyGitFilter",
-            "LazyGitFilterCurrentFile",
-        },
-        -- optional for floating window border decoration
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-        -- setting the keybinding for LazyGit with 'keys' is recommended in
-        -- order to load the plugin when the command is run for the first time
-        keys = {
-            { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-        }
-    },
-    {
-      "rose-pine/neovim",
-      config = function()
-      end
-    },
-    { 'projekt0n/github-nvim-theme', name = 'github-theme' },
-    {
-        "rebelot/kanagawa.nvim",
-    },
-    {
-        "EdenEast/nightfox.nvim",
-    },
-    {
-      "nvim-treesitter/nvim-treesitter",
-      lazy = false,
-      build = ":TSUpdate",
-      opts = {
-        ensure_installed = { "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "norg", "python", "go", "javascript", "rust", "html"},
-        sync_install = false,
-        auto_install = true,
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        }
-      },
-      config = function(_, opts)
-	require("nvim-treesitter.configs").setup(opts)
-      end
-    },
-    {
-      "mbbill/undotree",
-      config = function()
-      end
-    },
-    {
-        "nvim-neorg/neorg",
-        lazy = false,
-        version = "v9.3.0",
-        config = function()
-            require("neorg").setup {
-            load = {
-                ["core.defaults"] = {},
-                ["core.concealer"] = {},
-                ["core.dirman"] = {
-                    config = {
-                        workspaces = {
-                            notes = "~/notes",
-                        },
-                        default_workspace = "notes",
-                    }
-	            },
-                ["core.qol.toc"] = {
-                    config = {
-                        auto_toc = {
-                            close = false,
-                            enter = false,
-                            exit_nvim = true,
-                            open = false 
-                        }
-                    }
-                }
-	        }
-        }
-        end,
-        run = ":Neorg sync-parsers",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        }
-    },
-    {
-        "williamboman/mason.nvim",
-        config=function()
-            require("mason").setup()
-        end,
-        opts = {
-            ensure_installed = {
-                "lua-language-server", "stylua",
-                "html-lsp", "css-lsp", "prettier",
-                "pyright", "javascript",
-            }
-        }
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        config=function()
-        end
-    },
-    {
-        "neovim/nvim-lspconfig",
-        config=function()
-        end
-    },
-    {
-        "L3MON4D3/LuaSnip",
-        config=function()
-        end
-    },
-    {
-        "hrsh7th/nvim-cmp",
-        config=function()
-        end,
-        dependencies = {
-          "hrsh7th/cmp-nvim-lsp",
-          "hrsh7th/cmp-buffer"
-        }
-    },
-    {
-        "saadparwaiz1/cmp_luasnip",
-        config=function()
-        end
-    },
-    {
-        "rafamadriz/friendly-snippets",
-        config=function()
-        end
-    },
-    {
-        "kevinhwang91/nvim-ufo",
-        config=function()
-          vim.o.foldcolumn = "0"
-          vim.o.foldlevel = 99
-          vim.o.foldlevelstart = 99
-          vim.o.foldenable = true
-          vim.o.foldnestmax = 4
-
-          require('ufo').setup({
-            provider_selector = function(bufnr, filetype, buftype)
-              return {'treesitter', 'indent'}
-            end
-          })
-        end,
-        dependencies={
-          'kevinhwang91/promise-async'
-        }
-    },
-    {
-      "nvim-tree/nvim-tree.lua",
-      config = function()
-	require("nvim-tree").setup({
-	  sort = {
-	    sorter = "case_sensitive",
-	  },
-	  view = {
-	    width = 30,
-	  },
-	  renderer = {
-	    group_empty = true
-	  },
-	  filters = {
-	    dotfiles = false,
-	    git_ignored = false,
-	  },
-	  update_focused_file = {
-	    enable = true,
-	    update_cwd = false,
-	  },
-	})
-      end
-    },
-    {
-      "mfussenegger/nvim-dap-python",
-    },
-    {
-      "iamcco/markdown-preview.nvim",
-      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-      build = "cd app && yarn install",
-      init = function()
-        vim.g.mkdp_filetypes = { "markdown" }
-      end,
-      ft = { "markdown" },
-    },
-  },
-  checker = { enabled = true, notify = false }
-})
-
-
-require("plugins")
-require("sinistersquirrel")
-
+load_project_config()
 
 -- move this to a separate file maybe under plugins or config
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -268,58 +67,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-require('mason').setup({})
-require('mason-lspconfig').setup({
-  ensure_installed = {'ts_ls', 'rust_analyzer', 'pyright', 'tflint', 'terraformls'},
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({
-        capabilities = lsp_capabilities,
-      })
-    end,
-    lua_ls = function()
-      require('lspconfig').lua_ls.setup({
-        capabilities = lsp_capabilities,
-        settings = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT'
-            },
-            diagnostics = {
-              globals = {'vim'},
-            },
-            workspace = {
-              library = {
-                vim.env.VIMRUNTIME,
-              }
-            }
-          }
-        }
-      })
-    end,
-  }
-})
-
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-
-cmp.setup({
-  sources = cmp.config.sources({
-    {name = 'nvim_lsp'},  
-    {name = 'luasnip'},  
-  }, {
-    {name = 'buffer'},
-  }),
-  mapping = cmp.mapping.preset.insert({
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<Tab>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<cr>'] = cmp.mapping.confirm({select = true}),
-    ['<C-Space>'] = cmp.mapping.complete(),
-  }),
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
-})

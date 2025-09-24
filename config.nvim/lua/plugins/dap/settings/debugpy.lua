@@ -1,5 +1,5 @@
 local dap = require "dap"
-local path = "/home/pranesh/.pyenv/versions/haikyuu"
+local path = "/home/pranesh/.pyenv/versions/3.11.8/envs/landler/bin/python"
 
 if vim.fn.has "win32" == 1 then
   path = vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/Scripts/python"
@@ -32,90 +32,3 @@ dap.adapters.python = function(cb, config)
     }
   end
 end
-
-dap.configurations.python = {
-  {
-    -- The first three options are required by nvim-dap
-    type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
-    request = "launch",
-    name = "Launch file",
-
-    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
-    program = "${file}", -- This configuration will launch the current file if used.
-    pythonPath = function()
-      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
-      local cwd = vim.fn.getcwd()
-      if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-        return cwd .. "/venv/bin/python"
-      elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-        return cwd .. "/.venv/bin/python"
-      elseif os.getenv("VIRTUAL_ENV") then
-        return os.getenv("VIRTUAL_ENV")
-      else
-        return path
-      end
-    end,
-
---     pathMappings = {
---       localRoot = "~/tlg/landler/platform/backend",
---       remoteRoot = "/app/src",
---     },
-  },
-  {
-    type = 'python';
-    request = 'attach';
-    name = 'Debug App';
-    connect = function()
-        return {
-            host = '127.0.0.1',
-            port = 5678
-        }
-    end;
-    pathMappings = {
-      {
-        localRoot = "/home/pranesh/fun/sthira/backend";
-        remoteRoot = "/code";
-      },
-    },
-    justMyCode = false,
-  },
-  {
-    type = 'python';
-    request = 'attach';
-    name = 'Debug Worker';
-    connect = function()
-        return {
-            host = '127.0.0.1',
-            port = 5679,
-        }
-    end;
-    pathMappings = {
-      {
-        localRoot = "/home/pranesh/fun/sthira/backend";
-        remoteRoot = "/code";
-      },
-    },
-    justMyCode = false,
-  },
-  {
-    type = 'python';
-    request = 'attach';
-    name = 'Debug Test';
-    connect = function()
-        return {
-            host = '127.0.0.1',
-            port = 5688,
-        }
-    end;
-    pathMappings = {
-      {
-        localRoot = "/home/pranesh/tlg/landler/platform/backend";
-        remoteRoot = "/app/src";
-      },
-    },
-    justMyCode = false,
-  },
-}
