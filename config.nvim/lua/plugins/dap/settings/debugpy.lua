@@ -1,5 +1,5 @@
 local dap = require "dap"
-local path = "/home/pranesh/.pyenv/versions/3.11.8/envs/landler/bin/python"
+local path = "/home/pranesh/.pyenv/versions/haikyuu"
 
 if vim.fn.has "win32" == 1 then
   path = vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/Scripts/python"
@@ -76,8 +76,8 @@ dap.configurations.python = {
     end;
     pathMappings = {
       {
-        localRoot = "/home/pranesh/tlg/landler/platform/backend";
-        remoteRoot = "/app/src";
+        localRoot = "/home/pranesh/fun/sthira/backend";
+        remoteRoot = "/code";
       },
     },
     justMyCode = false,
@@ -94,8 +94,8 @@ dap.configurations.python = {
     end;
     pathMappings = {
       {
-        localRoot = "/home/pranesh/tlg/landler/platform/backend";
-        remoteRoot = "/app/src";
+        localRoot = "/home/pranesh/fun/sthira/backend";
+        remoteRoot = "/code";
       },
     },
     justMyCode = false,

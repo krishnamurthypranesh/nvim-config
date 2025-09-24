@@ -122,10 +122,10 @@ require("lazy").setup({
                 ["core.qol.toc"] = {
                     config = {
                         auto_toc = {
-                            close = true,
-                            enter = true,
+                            close = false,
+                            enter = false,
                             exit_nvim = true,
-                            open = true
+                            open = false 
                         }
                     }
                 }
@@ -230,11 +230,21 @@ require("lazy").setup({
     {
       "mfussenegger/nvim-dap-python",
     },
+    {
+      "iamcco/markdown-preview.nvim",
+      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+      build = "cd app && yarn install",
+      init = function()
+        vim.g.mkdp_filetypes = { "markdown" }
+      end,
+      ft = { "markdown" },
+    },
   },
   checker = { enabled = true, notify = false }
 })
 
 
+require("plugins")
 require("sinistersquirrel")
 
 
