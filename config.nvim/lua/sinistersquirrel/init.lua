@@ -13,4 +13,4 @@ function SetEditorColor(color)
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
-SetEditorColor("tokyonight-storm")
+SetEditorColor("kanagawa-dragon")
