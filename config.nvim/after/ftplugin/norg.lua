@@ -12,22 +12,6 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 ls.add_snippets("norg", {
-  s("daily", fmt(
-      [[
-      *** {} 
-      **** Time
-      ***** work
-        - start: {}
-        - end:
-      ***** break
-      **** ( ) Focus
-      ]],
-      {
-        i(1, ""),
-        i(2, ""),
-      }
-    )
-  ),
   s("code-block", fmt(
       [[
         @code {}
