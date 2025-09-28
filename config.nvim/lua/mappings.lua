@@ -45,4 +45,6 @@ vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<cr>")
 vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<cr>")
 vim.keymap.set("n", "<leader>dc", ":DapContinue<cr>")
 
+-- unmap table-mode toggle
+vim.keymap.set("n", "<leader>tm", "<Nop>", { buffer = false })
 
