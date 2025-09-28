@@ -5,8 +5,9 @@ vim.api.nvim_create_autocmd(
     {
         pattern = "*.md",
         callback = function()
-            require("lazy").load({plugins = {"vim-table-mode"}})
-            vim.cmd("TableModeToggle")
+            require("lazy").load({plugins = { "markdown-preview.nvim", "markview.nvim" }})
+            -- vim.cmd("TableModeToggle")
         end
     }
 )
+vim.keymap.set("n", "<localleader>mp", ":MarkdownPreview<cr>")
