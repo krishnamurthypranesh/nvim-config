@@ -10,7 +10,10 @@ return {
         },
         htmldjango = {
             "djlint",
-        }
+        },
+        elm = {
+            "elm-format",
+        },
       },
     })
   end,
