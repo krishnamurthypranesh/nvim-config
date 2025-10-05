@@ -7,6 +7,9 @@ return {
         python = { "isort", "black" },
         html = {
             "prettier",
+        },
+        htmldjango = {
+            "djlint",
         }
       },
     })

@@ -48,3 +48,6 @@ vim.keymap.set("n", "<leader>dc", ":DapContinue<cr>")
 -- unmap table-mode toggle
 vim.keymap.set("n", "<leader>tm", "<Nop>", { buffer = false })
 
+
+-- conform
+vim.keymap.set("n", "<leader>ff", ":lua require('conform').format()<cr>", { desc = "format current file" })
