@@ -5,7 +5,18 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- change this to be read from an environment variable
-vim.g.python3_host_prog = "/home/pranesh/.pyenv/versions/3.11.8/envs/py3nvim"
+local function set_python3_host_from_env(env_var_name, fallback)
+  local env_value = vim.fn.getenv(env_var_name)
+  
+  if env_value ~= vim.NIL and env_value ~= '' then
+    vim.g.python3_host_prog = env_value
+  elseif fallback then
+    vim.g.python3_host_prog = fallback
+  end
+end
+
+-- Usage examples:
+set_python3_host_from_env('NVIM_PYTHON3_HOST_PROG')
 
 -- use the system clipboard
 -- vim.api.nvim_set_option("clipboard", "unnamed")
