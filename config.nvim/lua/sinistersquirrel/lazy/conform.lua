@@ -7,6 +7,7 @@ return {
 				python = { "isort", "black" },
 				html = {
 					"prettier",
+                    "htmlbeautifier",
 				},
 				htmldjango = {
 					"djlint",
@@ -14,6 +15,13 @@ return {
 				elm = {
 					"elm-format",
 				},
+                javascript = {
+                    "biome",
+                    "eslint_d",
+                },
+                sql={
+                    "sqlfmt",
+                }
 			},
 		})
 	end,
